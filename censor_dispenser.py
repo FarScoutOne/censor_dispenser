@@ -154,66 +154,26 @@ def test_launcher(text, word):
 #test_launcher(text_list, "horribly")
 
 def launcher(text, censored_terms, negative_terms, concealer):
-    index = 0
+    text_as_list = text_to_list(text)
+
     for term in censored_terms:
         term = term.split()
 
-        word_instances = range(len(term))
-        num_of_comparisons = len(word_instances) - 1
+        # Create a list for each word in the term composed of its locations within the text
+        word_instances = ['' for x in range(len(term))]
+        index = 0
+        while index < len(word_instances):
+            word_instances[index] = word_finder(text_as_list, term[index])
+            index += 1
 
-
-        for i in range(len(term)):
-            clean_word = word_cleaner(term[i])
-            word_instances[i] = word_finder(text_list, clean_word)
-            print(term[i] + ": " + str(word_instances[i]))
-
-        print("Comparisons: " + str(num_of_comparisons))
-        if (num_of_comparisons > 0):
-            for i in range(num_of_comparisons):
-                for j in word_instances:
-                    for k in range(len(word_instances[0])):
-                        print("Compare with :" + str(word_instances[k]))
-                        print(num_of_comparisons)
-                        index = 1
-                        while index <= num_of_comparisons:
-                            for l in range(len(word_instances[index])):
-                                if (word_instances[0][k] == word_instances[index][l]):
-
-                                    print(conceal(text_list[word_instances[0][k]], punctuation_mapper([word_instances[0][k]]), "*") + "---------------------------------------------------------")
-                                index += 1
-
-
-            # print(term[i] + ": " + str(word_instances[i]))
-            #print( "Term " + str(index) + " word: " + word)
-
-        # for i in range(len(word_instances)):
-        #     for j in range(len(word_instances[i])):
-        #         if word_instances[i][j] == word_instances[i][j]
-
-        if (len(term) > 1):
-            print(term)
-            print(word_instances)
-        index += 1
-
-    index = 0
-    for term in negative_terms:
-        term = term.split()
-
-        word_instances = range(len(term))
-
-        for i in range(len(term)):
-            clean_word = word_cleaner(term[i])
-            word_instances = word_finder(text_list, clean_word)
+        
 
 
 
-            print(term[i] + ": " + str(word_instances))
-            #print( "Term " + str(index) + " word: " + word)
 
-        if (len(term) > 1):
-            print(term)
 
-        index += 1
+
+
 
 
 

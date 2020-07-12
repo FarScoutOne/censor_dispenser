@@ -153,26 +153,48 @@ def test_launcher(text, word):
 
 #test_launcher(text_list, "horribly")
 
-def is_consecutive(word_instances):
-    num_of_words = len(word_instances)
-    num_of_comparisons = num_of_words - 1
-    consecutiveness = 0
+#Iterate through first list and compare with each element in other lists looking for consecutiveness
+def consecutive_values_check(list_of_lists):
+    num_of_lists = len(list_of_lists)
+    consecutive_values = []
+    other_lists = list_of_lists[1:]
 
-    for i in range(num_of_comparisons):
-        for j in range(len(word_instances[0])):
-            print(word_instances[0][j])
-            for k in range(len(word_instances[i + 1])):
-                print(word_instances[i + 1][k])
-                if word_instances[0][j] + (i + 1) == word_instances[i + 1][k]:
-                    consecutiveness += 1
+    for value1 in list_of_lists[0]:
+        counter = 1
+        consecutive = True
 
+        for list in other_lists: # Iterate through remaining lists
+            if not consecutive: break
 
-            if consecutiveness == num_of_comparisons:
-                print(True)
-                print("Consecutive Match!!! - " + str(word_instances[0][j]))
-                consecutiveness = 0
+            for i in range(len(list)): # Compare value from first list with each value in current list
+                value2 = list[i]
+                #print("*********************************************************")
+                #print("First List Value: " + str(value1))
+                #print("Compare with: " + str(value2))
+                #print("Is " + str(value2) + " consecutive with " + str(value1) + "?")
+                #print("Does " + str((value1 + counter)) + " = " + str(value2) + "?")
+                if value2 > value1 + counter:
+                    consecutive = False
+                    #print("There is no consecutiveness for this value.")
+                    break
+                elif value2 == value1 + counter:
+                    #print("Yes. We have consecutiveness so far.")
+                    counter += 1
+                    break
+                elif i == len(list) - 1:
+                    consecutive = False
+                    #print("There is no consecutiveness for this value.")
+                    break
+                else:
+                    #print("Not yet.")
 
-is_consecutive([[1, 2, 18],[7, 3, 8, 19, 22], [4]])
+        if consecutive:
+            #print("CONSECUTIVE MATCH: " + str(value1))
+            consecutive_values.append(value1)
+
+    return consecutive_values
+
+#print(consecutive_values_check([[1, 2, 18],[3, 7, 8, 19, 22], [4]]))
 
 
 

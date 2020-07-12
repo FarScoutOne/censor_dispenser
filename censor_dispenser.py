@@ -67,6 +67,9 @@ def word_finder(word_list, word):
         elif word_cleaner(word_list[element].lower()) == word_past_tense_2.lower():
             word_positions.append(element)
 
+    # if len(word_positions) < 1:
+    #     return word_positions.append('')
+
 
     return word_positions
 
@@ -159,6 +162,9 @@ def consecutive_values_check(list_of_lists):
     consecutive_values = []
     other_lists = list_of_lists[1:]
 
+    if len(list_of_lists) == 1:
+        return list_of_lists
+
     for value1 in list_of_lists[0]:
         counter = 1
         consecutive = True
@@ -185,7 +191,7 @@ def consecutive_values_check(list_of_lists):
                     consecutive = False
                     #print("There is no consecutiveness for this value.")
                     break
-                else:
+                #else:
                     #print("Not yet.")
 
         if consecutive:
@@ -199,30 +205,58 @@ def consecutive_values_check(list_of_lists):
 
 
 
-def launcher(text, censored_terms, negative_terms, concealer):
+def launcher(text, proprietary_terms, negative_terms, concealer):
     text_as_list = text_to_list(text)
+    censored_terms = proprietary_terms + negative_terms
 
     for term in censored_terms:
         term = term.split()
+        num_of_words = len(term)
 
         # Create a list for each word in the term composed of its locations within the text
         word_instances = ['' for x in range(len(term))]
+        #print(word_instances)
+
         index = 0
         while index < len(word_instances):
             word_instances[index] = word_finder(text_as_list, term[index])
             index += 1
 
+        #print(word_instances)
+
+        #if len(word_instances[0]) == 0: break # Only continue if there are any instance of the term
+
+        # Check for consecutive values if term in case term is multi-word
+        word_instances = consecutive_values_check(word_instances)
+
+        if len(word_instances) > 0:
+            if (type(word_instances[0])  != list):
+                temp_list = []
+                temp_list.append(word_instances)
+                word_instances = temp_list
+
+            word_instances = word_instances[0]
+
+            if len(word_instances) > 0:
+
+                counter = 0
+                for word in term:  # For each word in the term
+                    #print(term)
+                    #print(word_instances)
+                    for instance in word_instances:  # For each instance of that word
+                        #print(instance + counter)
+                        punctuation_map = punctuation_mapper(text_as_list[instance + counter])  # Get punctuation map of the word within the text
+                        #print(punctuation_map)
+
+                        coverup = conceal(text_as_list[instance + counter], punctuation_map, concealer)
+
+                        text_as_list[instance + counter] = coverup
+
+                    counter += 1
 
 
 
+    print(' '.join(text_as_list))
 
 
-
-
-
-
-
-
-
-
-#launcher(email_three, proprietary_terms, negative_words, "*")
+launcher(email_four, proprietary_terms, negative_words, "*")

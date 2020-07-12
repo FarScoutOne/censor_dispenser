@@ -153,6 +153,30 @@ def test_launcher(text, word):
 
 #test_launcher(text_list, "horribly")
 
+def is_consecutive(word_instances):
+    num_of_words = len(word_instances)
+    num_of_comparisons = num_of_words - 1
+    consecutiveness = 0
+
+    for i in range(num_of_comparisons):
+        for j in range(len(word_instances[0])):
+            print(word_instances[0][j])
+            for k in range(len(word_instances[i + 1])):
+                print(word_instances[i + 1][k])
+                if word_instances[0][j] + (i + 1) == word_instances[i + 1][k]:
+                    consecutiveness += 1
+
+
+            if consecutiveness == num_of_comparisons:
+                print(True)
+                print("Consecutive Match!!! - " + str(word_instances[0][j]))
+                consecutiveness = 0
+
+is_consecutive([[1, 2, 18],[7, 3, 8, 19, 22], [4]])
+
+
+
+
 def launcher(text, censored_terms, negative_terms, concealer):
     text_as_list = text_to_list(text)
 
@@ -166,7 +190,6 @@ def launcher(text, censored_terms, negative_terms, concealer):
             word_instances[index] = word_finder(text_as_list, term[index])
             index += 1
 
-        
 
 
 
@@ -177,4 +200,7 @@ def launcher(text, censored_terms, negative_terms, concealer):
 
 
 
-launcher(email_three, proprietary_terms, negative_words, "*")
+
+
+
+#launcher(email_three, proprietary_terms, negative_words, "*")

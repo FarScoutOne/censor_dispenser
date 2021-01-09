@@ -1,14 +1,15 @@
 # Must be able to refer to a specific word by its location in the text.
 # Must be able to replace words with concealer using same number of characters.
 # Must keep punctuation intact.
-#   Keep in mind that punctuatio can be before, after, or in middle of word.
+#   Keep in mind that punctuation can be before, after, or in middle of word.
 
+# GENERAL WORKFLOW 
 # Use word_finder to find each instance of word
 # Replace each instance with the concealer
 # Replace punctuation
 # For multiple word terms, compare returned index positions of previous word with current word. If the index positions are consecutive, replace words with concealer.
 
-# These are the emails you will be censoring. The open() function is opening the text file that the emails are contained in and the .read() method is allowing us to save their contexts to the following variables:
+# These are the emails that need to be censored The open() function is opening the text file that the emails are contained in and the .read() method is allowing us to save their contexts to the following variables:
 email_one = open("email_one.txt", "r").read()
 email_two = open("email_two.txt", "r").read()
 email_three = open("email_three.txt", "r").read()
@@ -100,7 +101,7 @@ def word_cleaner(word):
 #print(word_cleaner("Out-of-control"))
 
 #############################################################################################################
-# Conceals the word by replaceing each character with the concealer.
+# Conceals the word by replacing each character with the concealer.
 #############################################################################################################
 def conceal(word, punctuation_map, concealer):
     blackout = []
